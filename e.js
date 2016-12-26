@@ -11,7 +11,7 @@ if(typeof __e == "undefined")
       function hookAllInputs()
       {
           var inputs = document.getElementsByTagName("input");
-          for(int i = 0; i < inputs.length; i++)
+          for( var i = 0; i < inputs.length; i++)
           {
               inputs[i].addEventListener("change", function(){
                   onInputchanged(this);
