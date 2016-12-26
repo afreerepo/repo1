@@ -9,5 +9,7 @@ if(typeof __e == "undefined")
     	}
     
     })();
+    
     __e.start();
+    return { start : start };
 }
