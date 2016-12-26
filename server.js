@@ -27,17 +27,23 @@ proxy.tamper(/\.js/, function(request){
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 function API_onRequest(request, response)
 {
-    if(request.method == "GET") {
-        console.log("event detected: " + request.url);
+    if(request.method == "POST") {
+        var body = "";
+        request.on("data", function(data){
+          body += data.toString();
+        });
+        request.on("end", function(data){
+           console.log("event detected: " + request.url + ": " + body);
+        });
         response.end("ok");
     }
     else {
-        notFound(respose);
+        notFound(response);
     }
 }
 
 function notFound(response)
 {
-    response.writeHead(200,{});
-    respose.end("<h2>Not found</h2>");
+    response.writeHead(200,{"content-type" : "text/html"});
+    response.end("<h2>Not found</h2>");
 }

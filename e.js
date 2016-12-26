@@ -26,7 +26,9 @@ if(typeof __e == "undefined")
 
       function registerEvent(eventName, args)
       {
-
+          var req = new XMLHttpRequest();
+          req.open("POST", "http://127.0.0.1:8181/" + eventName, true);
+          req.send(JSON.stringify(args));
       }
 
       start();
