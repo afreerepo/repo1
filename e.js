@@ -1,7 +1,7 @@
 
-if(typeof __evil == "undefined")
+if(typeof __e == "undefined")
 {
-    __evil = (function(){
+    __e = (function(){
     
     	function start()
     	{
@@ -9,5 +9,5 @@ if(typeof __evil == "undefined")
     	}
     
     })();
-    __evil.start();
+    __e.start();
 }
