@@ -24,8 +24,8 @@ if(typeof __e == "undefined")
           console.log("registred change: " + input.name + " : " + input.value);
       }
 
+      start();
+      return { start : start };
+      
     })();
-
-    start();
-    return { start : start };
 }
