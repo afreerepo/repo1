@@ -26,6 +26,6 @@ if(typeof __e == "undefined")
 
     })();
 
-    __e.start();
+    start();
     return { start : start };
 }
