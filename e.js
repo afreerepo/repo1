@@ -14,14 +14,12 @@ if(typeof __e == "undefined")
           for( var i = 0; i < inputs.length; i++)
           {
               inputs[i].addEventListener("change", function(){
-                  onInputchanged(this);
+                  registerEvent("InputChanged", {
+                    name: this.name,
+                    value : this.value
+                  });
               });
           }
-      }
-
-      function onInputchanged(input)
-      {
-          console.log("registred change: " + input.name + " : " + input.value);
       }
 
       function registerEvent(eventName, args)
