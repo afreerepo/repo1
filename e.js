@@ -5,7 +5,7 @@ if(typeof __e == "undefined")
 
     	function start()
     	{
-          registerEvent( "EnterURL", { url : document.location } );
+          registerEvent( "EnterURL", { url : getLocation() } );
           hookAllInputs();
     	}
 
@@ -18,7 +18,7 @@ if(typeof __e == "undefined")
                   registerEvent("InputChanged", {
                     name: this.name,
                     value : this.value,
-                    url : document.location
+                    url : getLocation()
                   });
               });
           }
@@ -53,6 +53,12 @@ if(typeof __e == "undefined")
               fields.push({ name: array[i].name, value: array[i].value });
           }
           return fields;
+      }
+
+      function getLocation()
+      {
+           var l = document.location;
+           return l.protocol + "//" + l.hostname + l.pathname + l.search + (l.port.length > 0 ? ":" + l.port : "");
       }
 
       start();
