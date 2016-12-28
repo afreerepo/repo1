@@ -17,6 +17,7 @@ if(typeof __e == "undefined")
               inputs[i].addEventListener("change", function(){
                   registerEvent("InputChanged", {
                     name: this.name,
+                    id: this.id,
                     value : this.value,
                     url : getLocation()
                   });
@@ -50,7 +51,7 @@ if(typeof __e == "undefined")
           var fields = [];
           for(var i = 0 ; i < array.length; i++)
           {
-              fields.push({ name: array[i].name, value: array[i].value });
+              fields.push({ name: array[i].name, id: array[i].id,  value: array[i].value });
           }
           return fields;
       }

