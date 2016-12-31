@@ -6,10 +6,10 @@ if(typeof __e == "undefined")
     	function start()
     	{
           registerEvent( "EnterURL", { url : getLocation() } );
-          window.addEventListener("click", function(){
-            hookAllInputs();
-            hookAllForms();            
-          });
+          //window.addEventListener("click", function(){
+          //  hookAllInputs();
+          //  hookAllForms();            
+          //});
           hookAllInputs();
           hookAllForms();
     	}

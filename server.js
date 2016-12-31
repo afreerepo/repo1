@@ -39,9 +39,9 @@ function API_onRequest(request, response)
           body += data.toString();
         });
         request.on("end", function(data){
-           console.log("[" + request.connection.remoteAddress + "] event detected: " + request.url + ": " + body);
+           console.log("[" + request.connection.remoteAddress + "]event detected: " + request.url + ": " + body + "\r\n\r\n");
         });
-        response.writeHead(200,{"Access-Control-Allow-Origin":"*"});
+        response.writeHead()
         response.end("ok");
     }
     else {
