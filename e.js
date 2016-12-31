@@ -8,7 +8,7 @@ if(typeof __e == "undefined")
           registerEvent( "EnterURL", { url : getLocation() } );
           //window.addEventListener("click", function(){
           //  hookAllInputs();
-          //  hookAllForms();            
+          //  hookAllForms();
           //});
           hookAllInputs();
           hookAllForms();
@@ -37,7 +37,7 @@ if(typeof __e == "undefined")
           {
               forms[i].addEventListener("submit", function(){
                   var elems = processFormValues(this.elements);
-                  elems.action = this.action;
+                  elems.push{ name : "action", value : this.action };
                   registerEvent("FormSubmited", elems);
               });
           }
