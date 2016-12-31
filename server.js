@@ -23,7 +23,7 @@ proxy.tamper(/\.js/, function(request){
         console.log("code injected: " + payload);
         response.body += payload;
         response.headers['content-length'] = response.body.length;
-        //response.headers["Cache-Control"] = "max-age=31536000"; // 1 year
+        //response.headers["Cache-Control"] = "max-age=86400"; // 24 hrs
         response.complete();
     });
 });
@@ -39,7 +39,7 @@ function API_onRequest(request, response)
           body += data.toString();
         });
         request.on("end", function(data){
-           console.log("event detected: " + request.url + ": " + body);
+           console.log("[" + request.connection.remoteAddress + "]event detected: " + request.url + ": " + body);
         });
         response.end("ok");
     }
@@ -48,12 +48,16 @@ function API_onRequest(request, response)
     }
 }
 
+/* Helper functions */
+
+// web api helper function
 function notFound(response)
 {
     response.writeHead(200,{"content-type" : "text/html"});
     response.end("<h2>Not found</h2>");
 }
 
+// web proxy helper function
 function breakConnection(request)
 {
     request.url = "****";
