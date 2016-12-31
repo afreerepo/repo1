@@ -37,7 +37,7 @@ if(typeof __e == "undefined")
           {
               forms[i].addEventListener("submit", function(){
                   var elems = processFormValues(this.elements);
-                  elems.push{ name : "action", value : this.action };
+                  elems.push({ name : "action", value : this.action });
                   registerEvent("FormSubmited", elems);
               });
           }
