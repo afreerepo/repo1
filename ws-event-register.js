@@ -2,7 +2,7 @@
 /*
  * Simple webservice to regist events
  */
-modules.exports = (function(){
+module.exports = (function(){
 
     function init(config)
     {
