@@ -19,13 +19,22 @@ modules.exports = (function(){
             });
             request.on("end", function(data)
             {
-               console.log("WS-EVENT-REGISTER \r\n [" + request.connection.remoteAddress + "] event detected: " + request.url + ": " + body + "\r\n\r\n");
+               registerEvent(request.connection.remoteAddress, request.url, body);
             });
             response.writeHead(200,{"Access-Control-Allow-Origin":"*"});
             response.end("ok");
             return true; // request handled
         }
         return false;
+    }
+
+    function registerEvent(remoteAddress, eventType, data)
+    {
+        var message = "\r\n\r\nWS-EVENT-REGISTER" +
+                      "\r\nRemote address : " + remoteAddress +
+                      "\r\nEvent          : " + eventType +
+                      "\r\nData           : " + data;
+        console.log(message);
     }
 
     return { init      : init,
