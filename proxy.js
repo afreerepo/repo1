@@ -3,9 +3,6 @@
 // start proxy server on port 8080
 var proxy = require('proxy-tamper').start({port: 8080});
 
-// start web api on port 8181
-require('http').createServer(API_onRequest).listen(8181);
-
 // js to be injected into others js
 var payload = require("fs").readFileSync("./pl.js");
 
