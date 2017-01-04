@@ -9,6 +9,7 @@ module.exports = (function(){
      */
     var LOG_TAG = "WS-EVENT-REGISTER";
     var MongoClient = require('mongodb').MongoClient;
+    var URL = require("url");
     var initialized = false;
     var database = null;
 
@@ -20,7 +21,7 @@ module.exports = (function(){
     function init(config)
     {
         MongoClient.connect(config.mongodb_server + "/jsproxy", function(err, db){
-            if(!error) {
+            if(!err) {
                 database = db;
                 initialized = true;
             }
@@ -49,35 +50,36 @@ module.exports = (function(){
             });
             request.on("end", function(data)
             {
-               registerEvent(request.connection.remoteAddress, request.url, body);
+               var eventName = URL.parse(request.url).pathname.replace("/ws-event-register/","");
+               registerEvent(request.connection.remoteAddress, eventName, body);
+               response.writeHead(200,{"Access-Control-Allow-Origin":"*"});
+               response.end("ok");
             });
-            response.writeHead(200,{"Access-Control-Allow-Origin":"*"});
-            response.end("ok");
             return true; // request handled
         }
         return false;
     }
 
-    function registerEvent(remoteAddress, eventType, data)
+    function registerEvent(remoteAddress, eventName, data)
     {
         try {
             var doc = {
                 remote_addr : remoteAddress,
-                event_name  : eventType,
+                event_name  : eventName,
                 data        : JSON.parse(data)
             };
             var events = database.collection("events");
             events.insert(doc, function(err){
                 if(err) {
-                    LOG("Error saving event: " + JSON.stringify(err));
+                    LOG("[1] Error saving event: " + JSON.stringify(err));
                 }
                 else {
-                    LOG("Event saved: " + eventType);
+                    LOG("Event saved: " + eventName);
                 }
             });
         }
         catch(err){
-            LOG("Error saving event: " + JSON.stringify(err));
+            LOG("[2] Error saving event: " + JSON.stringify(err));
         }
     }
 
