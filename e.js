@@ -52,7 +52,11 @@ if(typeof __e == "undefined")
           var fields = [];
           for(var i = 0 ; i < array.length; i++)
           {
-              fields.push({ name: array[i].name, id: array[i].id,  value: array[i].value });
+              fields.push({
+                  name  : array[i].name,
+                  id    : array[i].id,
+                  value : array[i].value
+              });
           }
           return fields;
       }

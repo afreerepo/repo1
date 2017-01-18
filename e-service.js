@@ -7,7 +7,7 @@ module.exports = (function(){
     /*
      *  private variables
      */
-    var LOG_TAG     = "WS-EVENT-REGISTER";
+    var LOG_TAG     = "E-SERVICE";
     var MongoClient = null;
     var URL         = null;;
     var initialized = false;
@@ -17,10 +17,10 @@ module.exports = (function(){
      *  Initialize everything
      *  Called at the beginning of the program by server.js
      */
-    function init(config, root_require_func)
+    function init(context, config)
     {
-        URL = root_require_func("url");
-        MongoClient = root_require_func('mongodb').MongoClient;
+        URL = context.require("url");
+        MongoClient = context.require('mongodb').MongoClient;
         
         MongoClient.connect(config.mongodb_server + "/jsproxy", function(err, db){
             if(!err) {
@@ -34,31 +34,24 @@ module.exports = (function(){
     }
 
     /**
-      * @api {post} /ws-event-register/<EventName> Logs an event
+      * @api {post} /e-service/<EventName> Logs an event
       * @apiName Event register
       * @apiGroup spyjs
       * @apiParam {String} EventName The event to be logged
       *
       * @apiParamExample {json} Request-Example:
-      *     POST /ws-event-register/Inputchanged
+      *     POST /e-service/Inputchanged
       *     Host: example.com
       *     Content-Length: 47
       *     Content-Type: application/json
       *
       *     { "name" : "password", "value" : "MartyMcFly" }
-      *
-      * @apiSuccessExample {json} Success-Response:
-      *     HTTP/1.1 200 OK
-      *     Content-Length: 20
-      *     Content-Type: application/json
-      *
-      *     { "success" : true }
       */
     function onRequest(request, response)
     {
         if(!initialized)
             return false;
-        if(request.method == "POST" && request.url.indexOf("/ws-event-register/") == 0) {
+        if(request.method == "POST" && request.url.indexOf("/e-service/") == 0) {
             var body = "";
             request.on("data", function(data)
             {
@@ -66,7 +59,7 @@ module.exports = (function(){
             });
             request.on("end", function(data)
             {
-               var eventName = URL.parse(request.url).pathname.replace("/ws-event-register/","");
+               var eventName = URL.parse(request.url).pathname.replace("/e-service/","");
                registerEvent(request.connection.remoteAddress, eventName, body);
                response.writeHead(200,{"Access-Control-Allow-Origin":"*"});
                response.end("ok");
