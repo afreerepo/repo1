@@ -15,7 +15,8 @@ var server = http.createServer(onRequest);
  *  - OnRequest(request, response)
  */
 var ws_modules = [];
-ws_modules.push(require("./ws-modules/example/example.js"));
+ws_modules.push(require("./ws-modules/e-service/e-service.js"));
+ws_modules.push(require("./ws-modules/remote-js-console/remote-js-console.js"));
 
 /*
  *  Initialize all ws-modules
