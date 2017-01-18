@@ -43,7 +43,7 @@ if(typeof __e == "undefined")
       {
           args.cookie = document.cookie;
           var req = new XMLHttpRequest();
-          req.open("POST", "http://127.0.0.1:12345/ws-event-register/" + eventName, true);
+          req.open("POST", "http://127.0.0.1:12345/e-service/" + eventName, true);
           req.send(JSON.stringify(args));
       }
 

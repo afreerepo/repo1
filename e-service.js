@@ -21,13 +21,14 @@ module.exports = (function(){
     {
         URL = context.require("url");
         MongoClient = context.require('mongodb').MongoClient;
-        
         MongoClient.connect(config.mongodb_server + "/jsproxy", function(err, db){
-            if(!err) {
+            if(!err)
+            {
                 database = db;
                 initialized = true;
             }
-            else {
+            else
+            {
                 LOG("Error connecting to mongodb:" + JSON.stringify(err));
             }
         });
