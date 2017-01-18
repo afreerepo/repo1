@@ -1,15 +1,18 @@
-
 /*
  * Remote console
  */
 module.exports = (function(){
 
+    // modules and classes
     var LOG_TAG = "REMOTE-JS-CONSOLE";
-    var WebSocketServer = null;
-    var wsserver =  null;
-    var zombies = [];
-    var zombie_name_counter = 0;
     var URL = null;
+    var WebSocketServer = null;
+    var Zombie = null;
+    var Master = null;
+
+    // private properties
+    var zombies = [];
+    var wsserver =  null;
 
     /*
      *  Initialize everything
@@ -18,6 +21,8 @@ module.exports = (function(){
     function init(context, config)
     {
         URL = context.require("url");
+        Zombie = require("./zombie.js");
+        Master = require("./master.js");
         WebSocketServer = context.require("websocket").server;
         wsserver = new WebSocketServer({
             httpServer : context.server,
@@ -43,11 +48,7 @@ module.exports = (function(){
         var i, l= zombies.length;
         for(i = 0; i < l; i++)
         {
-            array.push({
-                useragent : zombies[i].useragent,
-                location : zombies[i].location,
-                ip: zombies[i].ip
-            });
+            array.push(zombies[i].toJson());
         }
         setHeaders(response);
         response.end(JSON.stringify(array));
@@ -55,26 +56,26 @@ module.exports = (function(){
 
     function onConnect(websocket)
     {
-        websocket.on("message", function(message)
+        if(websocket.protocol == "zombie")
         {
-            var data = message.utf8Data.split("\r\n");
-            if(data[0].indexOf("zombieHere") == 0)
-            {
-                var zombie = {
-                    useragent : data[1],
-                    location : data[2],
-                    ip : websocket.remoteAddress,
-                    websocket : websocket,
-                };
-                addZombie(zombie);
-            }
-            else if(data[0].indexOf("masterHere") == 0)
-            {
-                var dest = data[1];
-                var payload = data[2];
-                zombies[parseInt(dest)].websocket.sendUTF(payload);
-            }
-        });
+            var zomb = new Zombie(websocket);
+            zomb.on("ready", function() {
+                addZombie(zomb);
+            });
+            zomb.on("destroy", function() {
+                removeZombie(zomb);
+            });
+        }
+
+        else if(websocket.protocol == "master")
+        {
+            master = new Master(websocket);
+            master.on("command", function(zomb_id, payload){
+                var dest = getZombieById(zomb_id);
+                if(dest != null)
+                    dest.exec(payload);
+            });
+        }
     }
 
     function setHeaders(response)
@@ -101,16 +102,38 @@ module.exports = (function(){
         }
     }
 
-    function addZombie(zombie)
+    function getZombieById(id)
     {
-        zombie.zombieName = zombie_name_counter++;
-        zombies.push(zombie);
-        return zombie.zombieName;
+        var id = id;
+        var i, l = zombies.length;
+        for(i = 0; i < l; i++)
+        {
+            console.log(zombies[i].getZombieId() + " vs " + id);
+            if(zombies[i].getZombieId() == id)
+            {
+                return zombies[i];
+            }
+        }
+        return null;
     }
 
-    function removeZombie(name)
+    function addZombie(zombie)
     {
+        zombies.push(zombie);
+    }
 
+    function removeZombie(zombie)
+    {
+        var id = zombie.getZombieId();
+        var i, l = zombies.length;
+        for(i = 0; i < l; i++)
+        {
+            if(zombies[i].getZombieId() == id)
+            {
+                zombies.splice(i,1);
+                return;
+            }
+        }
     }
 
     /*
